@@ -73,7 +73,7 @@ portConfig = strOption
 blockSizeConfig :: Parser MessageCount
 blockSizeConfig = MessageCount <$> option auto
     (  long "block-size"
-    <> value 1000
+    <> value 1024
     <> metavar "INT"
     <> help "how many messages to include within each block" )
 
