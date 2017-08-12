@@ -46,8 +46,13 @@ master c@Context {..} backend = \case
         forM_ slavePids $ \slavePid ->
             send slavePid slavePids
 
-        -- wait until the grace period has ended:
-        delayUntil $ addTime contextWaitTimeLimit
-            $ durationFromInteger 1 Seconds
-        say "master: grace period ended: exiting."
+        delayUntil contextSendTimeLimit
+        say "master: send period ended."
+
+        delayUntil contextWaitTimeLimit
+        say "master: grace period ended."
+
+        delay $ durationFromInteger 2 Seconds
+        say "master: exiting."
+
         terminateAllSlaves backend
