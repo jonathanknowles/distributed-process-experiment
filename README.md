@@ -2,6 +2,21 @@
 
 A small experiment with the Haskell `distributed-process` library.
 
+## Contents
+
+* [Introduction](#introduction)
+  * [Slave nodes](#slave-nodes)
+  * [Master node](#master-node)
+  * [Messages](#messages)
+* [Building](#building)
+* [Installation](#installation)
+* [Usage](#usage)
+  * [Slave nodes](#slave-nodes-1)
+  * [Master node](#master-node-1)
+    * [Specifying a seed](#specifying-a-seed)
+    * [Specifying a block size](#specifying-a-block-size)
+* [Performance](#performance)
+
 ## Introduction
 
 This experiment consists of a *master node* and a number of *slave nodes* that continually send pseudo-random messages to each another for a configurable period of time.
@@ -18,7 +33,7 @@ Each slave node:
 
 When the experiment is over, each slave reports its final digest.
 
-### The master node
+### Master node
 
 The master node:
 
@@ -50,7 +65,7 @@ Issuing the following command will install the `distributed-process-experiment` 
 stack install
 ```
 
-## Running
+## Usage
 
 ### Slave nodes
 
@@ -104,7 +119,7 @@ Specifying a block size of `n` will cause slave nodes to send messages in blocks
 
 The *default* block size is 1024 messages.
 
-## Graphs
+## Performance
 
 ![graph](http://jonathanknowles.net/distributed-process-experiment/data/message-block-size-vs-message-receive-rate.svg)
 
