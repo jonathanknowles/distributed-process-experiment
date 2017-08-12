@@ -75,11 +75,10 @@ start Context {..} md sps rps = do
             _ <- liftIO $ swapMVar md d
             t <- liftIO getCurrentTime
             when (t < contextSendTimeLimit) $ do
-                let b = createMessageBlock s contextBlockSize t
+                let (b, s') = createMessageBlock s contextBlockSize t
                 broadcastBlock b
                 fetchBlocks >>= maybe (pure ())
-                    (sendReceiveLoop
-                        (blockSeedNext b) . digestMessageBlocks d)
+                    (sendReceiveLoop s' . digestMessageBlocks d)
 
         -- Sends the given block to every single slave.
         broadcastBlock :: MessageBlock -> Process ()

@@ -115,12 +115,16 @@ createMessage (MessageSeed s) = (Message m, MessageSeed t)
     where (m, t) = randomR (0.0, 1.0) s
 {-# INLINE createMessage #-}
 
-createMessageBlock :: MessageSeed -> MessageCount -> TimePoint -> MessageBlock
+createMessageBlock
+    :: MessageSeed
+    -> MessageCount
+    -> TimePoint
+    -> (MessageBlock, MessageSeed)
 createMessageBlock s (MessageCount c) t = runST $ do
         v <- M.unsafeNew c
         u <- initialize v
         b <- U.freeze v
-        pure $ MessageBlock b (MessageCount c) s u t
+        pure (MessageBlock b (MessageCount c) s u t, u)
     where
         initialize :: forall s. U.MVector s Message -> ST s MessageSeed
         initialize v = loop s 0 where
