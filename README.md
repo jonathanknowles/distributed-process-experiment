@@ -5,16 +5,10 @@ A small experiment with the Haskell `distributed-process` library.
 ## Contents
 
 * [Introduction](#introduction)
-  * [Slave nodes](#slave-nodes)
-  * [Master node](#master-node)
-  * [Messages](#messages)
 * [Building](#building)
 * [Installation](#installation)
 * [Usage](#usage)
-  * [Slave nodes](#slave-nodes-1)
-  * [Master node](#master-node-1)
-    * [Specifying a seed](#specifying-a-seed)
-    * [Specifying a block size](#specifying-a-block-size)
+* [Design](#design)
 * [Performance](#performance)
 
 ## Introduction
@@ -121,5 +115,33 @@ The *default* block size is 1024 messages.
 
 ## Performance
 
+### Effect of message block size
+
+Varying the message block size can have a marked effect on overall message transmission rate.
+
+As the number of messages in a block increases, the overall message transmission rate tends to increase, eventually hitting an upper bound (the message transmission rate can never exceed the message generation rate):
+
 ![graph](http://jonathanknowles.net/distributed-process-experiment/data/message-block-size-vs-message-receive-rate.svg)
+
+The above graph was produced from data obtained with the following configuration:
+
+#### Hardware
+
+| Host |         CPU         | Cores | Frequency | Memory | Frequency |
+|:----:|:-------------------:|:-----:|:---------:|:------:|-----------|
+|   1  | Intel Core i7-3537U |   4   |  2.00 GHz |  4 GiB | 1600 MHz  |
+|   2  |   AMD Athlon 750K   |   4   |  1.40 GHz |  8 GiB | 1600 MHz  |
+
+#### Nodes
+
+| Host | Master Node   | Slave Nodes |
+|:----:|:-------------:|:-----------:|
+|   1  | X             |   4         |
+|   2  |               |   4         |
+
+#### Parameters
+
+| Sending Period | Waiting Period |
+|---------------:|---------------:|
+|           60 s |           10 s |
 
