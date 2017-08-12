@@ -103,3 +103,8 @@ distributed-process-experiment master \
 Specifying a block size of `n` will cause slave nodes to send messages in blocks of `n` messages.
 
 The *default* block size is 1024 messages.
+
+## Graphs
+
+![graph](http://jonathanknowles.net/distributed-process-experiment/data/message-block-size-vs-message-receive-rate.svg)
+
