@@ -65,7 +65,8 @@ stack install
 
 Slave nodes require very little configuration. To start a slave node, issue the following command:
 ```
-distributed-process-experiment slave --host HOSTNAME --port INT
+distributed-process-experiment slave \
+    --host HOSTNAME --port INT
 ```
 The slave node will bind to the specified *host name* and *port* and wait for further instructions.
 
