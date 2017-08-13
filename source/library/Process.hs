@@ -1,3 +1,36 @@
+{-| Module      : Process
+    Description : Utility functions relating to processes.
+
+This module contains more strongly-typed versions of several functions within the
+<https://hackage.haskell.org/package/distributed-process/docs/Control-Distributed-Process.html 'Control.Distributed.Process'>
+module of the
+<https://hackage.haskell.org/package/distributed-process distributed-process> library.
+
+In particular, this module provides:
+
+== Functions that accept 'TimeDuration' values
+
+Certain functions within the original library take values of type 'Int' to
+represent time durations (often, but not always in microseconds).
+
+These have have been replaced with functions that take values of type
+'TimeDuration':
+
+* 'delay'
+* 'expectTimeout'
+* 'receiveChanTimeout'
+
+== Functions that accept 'TimePoint' values
+
+These functions provide a convenient way for the caller to specify that a
+particular operation should proceed until a specific point in time:
+
+* 'delayUntil'
+* 'expectUntil'
+* 'receiveChanUntil'
+
+-}
+
 module Process
     ( delay
     , delayUntil

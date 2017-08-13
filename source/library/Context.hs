@@ -1,3 +1,12 @@
+{-| Module      : Context
+    Description : A run-time context for all nodes.
+
+This module defines a 'Context' type, passed to all nodes during startup.
+
+The master receives a 'Context' object during startup, and then passes a copy of
+this 'Context' (with a unique seed) to each slave.
+-}
+
 {-# LANGUAGE DeriveGeneric #-}
 
 module Context where

@@ -1,3 +1,9 @@
+{-| Module      : Startup
+    Description : The main entry point.
+
+This module contains a 'main' entry point, callable by an executable.
+-}
+
 {-# LANGUAGE LambdaCase      #-}
 {-# LANGUAGE RecordWildCards #-}
 

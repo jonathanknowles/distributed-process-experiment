@@ -1,3 +1,9 @@
+{-| Module      : Pretty
+    Description : Pretty-printing functions
+
+Various pretty printing functions.
+-}
+
 {-# LANGUAGE OverloadedStrings #-}
 
 module Pretty

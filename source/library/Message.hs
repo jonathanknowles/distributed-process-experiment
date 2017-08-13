@@ -1,3 +1,35 @@
+{-| Module      : Message
+    Description : Message generation and consumption
+
+This module defines the 'Message', 'MessageBlock', 'MessageDigest' and
+'MessageSeed' types, as well as functions for generating and digesting
+messages.
+
+== Creating messages
+
+To create messages, first create an initial 'MessageSeed' with the
+'createMessageSeed' function.
+
+With a 'MessageSeed' in hand, use either the 'createMessage' function or the
+'createMessageBlock' function to create messages.
+
+Each of these functions returns a new 'MessageSeed' suitable for use in
+subsequent calls.
+
+== Digesting messages
+
+To digest messages, first create an initial 'MessageDigest' with the
+'createMessageDigest' function.
+
+With a 'MessageDigest' in hand, use either the 'digestMessage' function, the
+'digestMessageBlock' function, or the 'digestMessageBlocks' function to digest
+messages.
+
+Each of these functions returns a new 'MessageDigest' suitable for use in
+subsequent calls.
+
+-}
+
 {-# LANGUAGE BangPatterns               #-}
 {-# LANGUAGE DeriveGeneric              #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
@@ -152,5 +184,8 @@ digestMessage (MessageDigest c d) m =
 digestMessageBlock :: MessageDigest -> MessageBlock -> MessageDigest
 digestMessageBlock d b = U.foldl' digestMessage d (blockContents b)
 
+{-| Digest multiple message blocks in ascending order of their timestamps,
+    as given by the 'blockTime' function.
+-}
 digestMessageBlocks :: MessageDigest -> [MessageBlock] -> MessageDigest
 digestMessageBlocks d bs = foldr (flip digestMessageBlock) d (sort bs)

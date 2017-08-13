@@ -1,3 +1,9 @@
+{-| Module      : Master
+    Description : The master node
+
+This module defines processes that run on the master node.
+-}
+
 {-# LANGUAGE LambdaCase      #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TemplateHaskell #-}

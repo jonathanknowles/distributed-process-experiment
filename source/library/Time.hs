@@ -1,3 +1,52 @@
+{-| Module      : Time
+    Description : Time-related functionality.
+
+This module contains types and functions relating to __time__.
+
+In particular, it provides type-safe functions for converting values from one
+unit of time to another, which is often useful in code that handles values in
+one particular unit (for example, seconds) but must provide values to an API
+expecting values in another unit (for example, microseconds).
+
+== Overview
+
+Values of type 'TimeDuration' specify a length of time. Units are specified at
+construction time (or conversion time) by supplying a 'TimeUnit' value.
+
+Values of type 'TimePoint' specify a particular instant in time, and are
+suitable for serialization and transmission across a network.
+
+== Rounding
+
+Operations that involve rounding require the caller to specify in which
+direction the rounding should occur (up or down), with a 'Rounding' value.
+
+== Adding time
+
+Values of type 'TimeDuration' and 'TimePoint' may be added to one another in
+various ways, with the 'addTime' function:
+
+* Adding a 'TimeDuration' to a 'TimePoint' produces another 'TimePoint'.
+* Adding a 'TimeDuration' to a 'TimeDuration' produces another 'TimeDuration'.
+
+== Time differences
+
+The 'timeDifference' function calculates the length of time between two
+'TimePoint' values, returning a 'TimeDuration'.
+
+== Laws
+
+Functions within this module are governed by the following laws:
+
+* 'addTime' a ('timeDifference' a b) == b
+* 'timeDifference' a ('addTime' a b) == b
+* 'durationToInteger' ('durationFromInteger' i u) u 'RoundingUp' == i
+* 'durationToInteger' ('durationFromInteger' i u) u 'RoundingDown' == i
+* 'durationFromInteger' ('durationToInteger' d u 'RoundingUp') u >= d
+* 'durationFromInteger' ('durationToInteger' d u 'RoundingDown') u <= d
+
+-}
+
 {-# LANGUAGE DeriveGeneric              #-}
 {-# LANGUAGE FunctionalDependencies     #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}

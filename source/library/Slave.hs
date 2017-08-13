@@ -1,3 +1,9 @@
+{-| Module      : Slave
+    Description : The slave node
+
+This module defines processes that run on slave nodes.
+-}
+
 {-# LANGUAGE BangPatterns    #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TemplateHaskell #-}

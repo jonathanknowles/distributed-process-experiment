@@ -1,3 +1,10 @@
+{-| Module      : Config
+    Description : User-provided configuration data
+
+This module defines the types of configuration data produced when invoking the
+CLI.
+-}
+
 module Config
     ( Config       (..)
     , MasterConfig (..)

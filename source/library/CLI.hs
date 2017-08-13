@@ -1,3 +1,10 @@
+{-| Module      : CLI
+    Description : The command-line interface
+
+This module defines the set of commands and options provided by the command-line
+interface.
+-}
+
 module CLI
     ( getConfig
     ) where
