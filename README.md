@@ -113,6 +113,47 @@ Specifying a block size of `n` will cause slave nodes to send messages in blocks
 
 The *default* block size is 1024 messages.
 
+## Design
+
+This implementation makes several design choices.
+
+### Message bundling
+
+By default, slaves bundle messages together into *blocks* before transmitting them over the network to other slaves.
+
+This has several advantages:
+
+* Messages can be *generated in batches*, allowing for more efficient use of the processor and memory. Assuming the compiler is able to transform message generation code into a tight loop, and assuming consecutive messages can be written to contiguous chunks of memory, then it make sense to generate several messages at once, taking advantage of the principles of spatial and temporal locality.
+
+* Messages can be *consumed in batches*, again allowing for more efficient use of the processor and memory. Assuming the compiler is able to transform message digest code into a tight loop, and assuming consecutive messages can be read from contiguous chunks of memory, then it make sense to digest several messages at once, taking advantage of the principles of spatial and temporal locality.
+
+* Received messages can be *sorted more efficiently* into timestamp order. Since large numbers of messages are effectively sent *at the same time*, they can share a timestamp. For a stream of *n* messages, the time complexity of sorting messages into order is as follows:
+
+    | Scenario                                                                                                          | Time complexity of sorting messages |
+    |-------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+    | • _n_ messages are sent individually              <br> • each message has a unique timestamp                      | O (_n_ log _n_)                     |
+    | • _n_ messages are sent within blocks of size _k_ <br> • messages within the same block share a common timestamp  | O (_n_/_k_ log _n_/_k_)             |
+
+* Sending a message over the network comes with an associated *overhead*. Bundling messages together allows this overhead to be spread over many messages, allowing for a lower amortised network overhead.
+
+### Work stealing
+
+In order to achieve a *bounded memory footprint*, slaves wait for *permission* from other slaves before sending blocks.
+
+This has the following advantages:
+
+* Assuming some slaves are capable of generating messages at a faster rate than other slaves can consume them, this helps avoid the situation where slower slaves suffer from memory exhaustion.
+
+* In the case of network disruption, slaves do not continue to build up a queue of untransmitted messages, thus avoiding memory exhaustion and lowering the likelihood of lost messages.
+
+### Digest equality
+
+Every slave digests messages in exactly the same order. If slaves *s1* and *s2* respectively transmit messages *m1* and *m2* at times *t1* and *t2*, then all slaves will digest message *m1* before digesting message *m2*. Similarly, if slaves *s1* and *s2* respectively transmit message blocks *b1* and *b2* at times *t1* and *t2*, then all slaves wil digest block *b1* before digesting block *b2*.
+
+This has the effect that, if all slaves receive and digest all transmitted messages, then they will all ultimately compute exactly the same digest value.
+
+Note this is not a guarantee that all messages will be received and digested. Over a given run with a set of slaves *S* and a timestamp-ordered list of messages *M*, some slaves might only receive a prefix of *M*. However, prefixes of the *same length* will produce *identical* digest values.
+
 ## Performance
 
 ### Effect of message block size
