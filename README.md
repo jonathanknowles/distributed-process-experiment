@@ -10,6 +10,7 @@ A small experiment with the Haskell [`distributed-process` library](https://hack
 * [Usage](#usage)
 * [Design](#design)
 * [Performance](#performance)
+* [Limitations](#limitations)
 
 ## Introduction
 
@@ -215,4 +216,16 @@ The above graph was produced from data obtained with the following configuration
 | Sending Period | Waiting Period |
 |---------------:|---------------:|
 |           60 s |           10 s |
+
+## Limitations
+
+### Clock accuracy
+
+The current implementation assumes all hosts have clocks that are synchronized with one another.
+
+### TCP timeouts
+
+The current implementation, while able to survive short periods of network disruption (up to a few minutes), makes no attempt to survive disconnections due to TCP timeouts.
+
+Future versions of this project might overcome this limitation by allowing slaves to [reconnect](https://hackage.haskell.org/package/distributed-process-0.6.6/docs/Control-Distributed-Process.html#v:reconnect) to one another. This entails adding code to deal with the possibility that messages may have been lost, and requesting retransmission of lost messages.
 
