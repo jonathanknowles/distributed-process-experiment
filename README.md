@@ -1,6 +1,6 @@
 # Distributed Process Experiment
 
-A small experiment with the Haskell `distributed-process` library.
+A small experiment with the Haskell [`distributed-process` library](https://hackage.haskell.org/package/distributed-process).
 
 ## Contents
 
