@@ -147,7 +147,9 @@ This has the following advantages:
 
 * In the case of network disruption, slaves do not continue to build up a queue of untransmitted messages, again avoiding memory exhaustion and lowering the likelihood of lost messages.
 
-In practice, after broadcasting any given block, a slave will wait for *all other slaves* to produce a block before digesting those blocks and broadcasting another block. This has the disadvantage that slaves only move forward in lockstep with one another (and thus some slaves are left idle when they could be doing work). However, this disadvantage is offset by the efficiency gained from generating (and digesting) messages in batches.
+In practice, after broadcasting any given block, a slave will wait for *all other slaves* to produce a block and then *fully digest* those received blocks *before* generating and broadcasting another block.
+
+This approach has the disadvantage that slaves only move forward *in lockstep with one another* (and thus some slaves are left idle when they could be doing work). However, any loss in efficiency is offset by the efficiency gained from generating (and digesting) messages in batches.
 
 ### Digest equality
 
