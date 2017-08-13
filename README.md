@@ -39,6 +39,19 @@ The master node:
 
 Each message consists of a pseudo-random real number in the range `0` to `1`. A timestamp is attached at the time of sending. Pseudo-random numbers are generated according to a seed supplied by the master.
 
+### Digests
+
+Each slave continually maintains (and periodically reports) a digest of all received messages from other slaves, according to the following function:
+
+　　　　*d* {*m*<sub>1</sub>, *m*<sub>2</sub>, *m*<sub>3</sub>, ..., *m*<sub>n</sub>} = (*n*, 1.*m*<sub>1</sub> + 2.*m*<sub>2</sub> + 3.*m*<sub>3</sub> + ... + *n*.*m*<sub>*n*</sub>)
+
+　　　　where
+
+　　　　　　*m*<sub>*i*</sub> is the *i*th message received
+　　　　　　*n* is the total number of messages received
+
+Messages are digested *in order of their timestamps*.
+
 ## Building
 
 Issue the following commands:
