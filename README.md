@@ -86,7 +86,7 @@ It's important that every slave node has a unique (*host name*, *port*) pair, an
 
 ### Master node
 
-Note: the master node discovers slave nodes during startup. Before starting a master node, first ensure that all slave nodes have been started.
+Note that the master node discovers slave nodes *during startup*. Before starting a master node, *first* ensure that all slave nodes have been started.
 
 To start a master node in the simplest way possible, issue the following command:
 ```
