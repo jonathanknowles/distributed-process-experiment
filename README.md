@@ -139,13 +139,15 @@ This has several advantages:
 
 ### Work stealing
 
-In order to achieve a *bounded memory footprint*, slaves wait for *permission* from other slaves before sending blocks.
+In order to achieve a *bounded memory footprint*, slaves wait for *permission* from other slaves before sending blocks, and *fully digest* received blocks *before* asking for more.
 
 This has the following advantages:
 
 * Assuming some slaves are capable of generating messages at a faster rate than other slaves can consume them, this helps avoid the situation where slower slaves suffer from memory exhaustion.
 
 * In the case of network disruption, slaves do not continue to build up a queue of untransmitted messages, again avoiding memory exhaustion and lowering the likelihood of lost messages.
+
+* Over longer runs, slaves do not build up a queue of undigested messages, again avoiding memory exhaustion.
 
 In practice, after broadcasting any given block, a slave will wait for *all other slaves* to produce a block and then *fully digest* those received blocks *before* generating and broadcasting another block.
 
