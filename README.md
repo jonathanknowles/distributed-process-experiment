@@ -145,17 +145,28 @@ This has the following advantages:
 
 * Assuming some slaves are capable of generating messages at a faster rate than other slaves can consume them, this helps avoid the situation where slower slaves suffer from memory exhaustion.
 
-* In the case of network disruption, slaves do not continue to build up a queue of untransmitted messages, thus avoiding memory exhaustion and lowering the likelihood of lost messages.
+* In the case of network disruption, slaves do not continue to build up a queue of untransmitted messages, again avoiding memory exhaustion and lowering the likelihood of lost messages.
 
 In practice, after broadcasting any given block, a slave will wait for *all other slaves* to produce a block before digesting those blocks and broadcasting another block. This has the disadvantage that slaves only move forward in lockstep with one another (and thus some slaves are left idle when they could be doing work). However, this disadvantage is offset by the efficiency gained from generating (and digesting) messages in batches.
 
 ### Digest equality
 
-Every slave digests messages in exactly the same order. If slaves *s1* and *s2* respectively transmit messages *m1* and *m2* at times *t1* and *t2*, then all slaves will digest message *m1* before digesting message *m2*. Similarly, if slaves *s1* and *s2* respectively transmit message blocks *b1* and *b2* at times *t1* and *t2*, then all slaves will digest block *b1* before digesting block *b2*.
+Every slave digests messages in exactly the same order. If slaves *s*<sub>1</sub> and *s*<sub>2</sub> respectively transmit messages *m*<sub>1</sub> and *m*<sub>2</sub> at times *t*<sub>1</sub> and *t*<sub>2</sub>, then all slaves will digest message *m*<sub>1</sub> before digesting message *m*<sub>2</sub>. Similarly, if slaves *s*<sub>1</sub> and *s*<sub>2</sub> respectively transmit message blocks *b*<sub>1</sub> and *b*<sub>2</sub> at times *t*<sub>1</sub> and *t*<sub>2</sub>, then all slaves will digest block *b*<sub>1</sub> before digesting block *b*<sub>2</sub>.
 
-This has the effect that, if all slaves receive and digest all transmitted messages, then they will all ultimately compute exactly the same digest value.
+Additionally, every slave uses the same digest function *d* to digest messages:
 
-Note this is not a guarantee that all messages will be received and digested. Over a given run with a set of slaves *S* and a timestamp-ordered list of messages *M*, some slaves might only receive a prefix of *M*. However, prefixes of the *same length* will produce *identical* digest values.
+　　　　*d* {*m*<sub>1</sub>, *m*<sub>2</sub>, *m*<sub>3</sub>, ..., *m*<sub>n</sub>} = (*n*, 1.*m*<sub>1</sub> + 2.*m*<sub>2</sub> + 3.*m*<sub>3</sub> + ... + *n*.*m*<sub>*n*</sub>)
+
+Hence, if all slaves receive and digest all transmitted messages, then they will all ultimately compute exactly the same digest value.
+
+Note this is not a guarantee that all messages will be received and digested. Over a given run with a set of slaves *S* and a timestamp-ordered list of messages *M*, some slaves might only receive a prefix *P* of *M*. However, prefixes of the *same length* will produce *identical* digest values.
+
+In practice, due to the work-stealing model described above, prefixes of the transmitted message list will always have one of *two possible lengths*:
+
+* |*M*|
+* |*M*| - |*S*|.*k*, where *k* is the number of messages in a block,
+
+Therefore, at the end of a given run, each *final digest* can only be one of *two possible values*.
 
 ## Performance
 
