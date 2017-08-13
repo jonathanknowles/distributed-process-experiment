@@ -146,9 +146,11 @@ This has the following advantages:
 
 * In the case of network disruption, slaves do not continue to build up a queue of untransmitted messages, thus avoiding memory exhaustion and lowering the likelihood of lost messages.
 
+In practice, after broadcasting any given block, a slave will wait for *all other slaves* to produce a block before digesting those blocks and broadcasting another block. This has the disadvantage that slaves only move forward in lockstep with one another (and thus some slaves are left idle when they could be doing work). However, this disadvantage is offset by the efficiency gained from generating (and digesting) messages in batches.
+
 ### Digest equality
 
-Every slave digests messages in exactly the same order. If slaves *s1* and *s2* respectively transmit messages *m1* and *m2* at times *t1* and *t2*, then all slaves will digest message *m1* before digesting message *m2*. Similarly, if slaves *s1* and *s2* respectively transmit message blocks *b1* and *b2* at times *t1* and *t2*, then all slaves wil digest block *b1* before digesting block *b2*.
+Every slave digests messages in exactly the same order. If slaves *s1* and *s2* respectively transmit messages *m1* and *m2* at times *t1* and *t2*, then all slaves will digest message *m1* before digesting message *m2*. Similarly, if slaves *s1* and *s2* respectively transmit message blocks *b1* and *b2* at times *t1* and *t2*, then all slaves will digest block *b1* before digesting block *b2*.
 
 This has the effect that, if all slaves receive and digest all transmitted messages, then they will all ultimately compute exactly the same digest value.
 
