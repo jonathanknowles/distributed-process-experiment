@@ -159,7 +159,7 @@ Additionally, every slave uses the same digest function *d* to digest messages:
 
 Hence, if all slaves receive and digest all transmitted messages, then they will all ultimately compute exactly the same digest value.
 
-Note this is not a guarantee that all messages will be received and digested. Over a given run with a set of slaves *S* and a timestamp-ordered list of messages *M*, some slaves might only receive a prefix *P* of *M*. However, prefixes of the *same length* will produce *identical* digest values.
+Note that this is *not* a guarantee that all messages will be received and digested. Over a given run with a set of slaves *S* and a timestamp-ordered list of messages *M*, some slaves might only receive a prefix *P* of *M*. However, prefixes of the *same length* will produce *identical* digest values.
 
 In practice, due to the work-stealing model described above, prefixes of the transmitted message list will always have one of *two possible lengths*:
 
