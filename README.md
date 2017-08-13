@@ -180,7 +180,7 @@ Note that this is *not* a guarantee that all messages will be received and diges
 In practice, due to the work-stealing model described above, prefixes of the transmitted message list will always have one of *two possible lengths*:
 
 * |*M*|
-* |*M*| - |*S*|.*k*, where *k* is the number of messages in a block,
+* |*M*| − |*S*|.*k*, where *k* is the number of messages in a block,
 
 Therefore, at the end of a given run, each *final digest* can only be one of *two possible values*.
 
