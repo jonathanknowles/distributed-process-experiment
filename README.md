@@ -43,12 +43,11 @@ Each message consists of a pseudo-random real number in the range `0` to `1`. A 
 
 Each slave continually maintains (and periodically reports) a digest of all received messages from other slaves, according to the following function:
 
-　　　　*d* {*m*<sub>1</sub>, *m*<sub>2</sub>, *m*<sub>3</sub>, ..., *m*<sub>n</sub>} = (*n*, 1.*m*<sub>1</sub> + 2.*m*<sub>2</sub> + 3.*m*<sub>3</sub> + ... + *n*.*m*<sub>*n*</sub>)
+　　　　*d* \[*m*<sub>1</sub>, *m*<sub>2</sub>, *m*<sub>3</sub>, ..., *m*<sub>n</sub>\] = (*n*, 1.*m*<sub>1</sub> + 2.*m*<sub>2</sub> + 3.*m*<sub>3</sub> + ... + *n*.*m*<sub>*n*</sub>)
 
-　　　　where
-
-　　　　　　*m*<sub>*i*</sub> is the *i*th message received
-　　　　　　*n* is the total number of messages received
+　　　　where:<br>
+　　　　　*m*<sub>*k*</sub> is the *k*th message received<br>
+　　　　　*n* is the total number of messages received
 
 Messages are digested *in order of their timestamps*.
 
@@ -170,9 +169,9 @@ This approach has the disadvantage that slaves only move forward *in lockstep wi
 
 Every slave digests messages in exactly the same order. If slaves *s*<sub>1</sub> and *s*<sub>2</sub> respectively transmit messages *m*<sub>1</sub> and *m*<sub>2</sub> at times *t*<sub>1</sub> and *t*<sub>2</sub>, then all slaves will digest message *m*<sub>1</sub> before digesting message *m*<sub>2</sub>. Similarly, if slaves *s*<sub>1</sub> and *s*<sub>2</sub> respectively transmit message blocks *b*<sub>1</sub> and *b*<sub>2</sub> at times *t*<sub>1</sub> and *t*<sub>2</sub>, then all slaves will digest block *b*<sub>1</sub> before digesting block *b*<sub>2</sub>.
 
-Additionally, every slave uses the same digest function *d* to digest messages:
+Recall that every slave uses the same digest function *d* to digest messages:
 
-　　　　*d* {*m*<sub>1</sub>, *m*<sub>2</sub>, *m*<sub>3</sub>, ..., *m*<sub>n</sub>} = (*n*, 1.*m*<sub>1</sub> + 2.*m*<sub>2</sub> + 3.*m*<sub>3</sub> + ... + *n*.*m*<sub>*n*</sub>)
+　　　　*d* \[*m*<sub>1</sub>, *m*<sub>2</sub>, *m*<sub>3</sub>, ..., *m*<sub>n</sub>\] = (*n*, 1.*m*<sub>1</sub> + 2.*m*<sub>2</sub> + 3.*m*<sub>3</sub> + ... + *n*.*m*<sub>*n*</sub>)
 
 Hence, if all slaves receive and digest all transmitted messages, then they will all ultimately compute exactly the same digest value.
 
