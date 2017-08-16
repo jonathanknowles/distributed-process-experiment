@@ -14,7 +14,7 @@ A small experiment with the Haskell [`distributed-process` library](https://hack
 
 ## Introduction
 
-This experiment consists of a *master node* and a number of *slave nodes* that continually send pseudo-random messages to each another for a configurable period of time. At the end of this period, slaves report a digest of the messages they have received.
+This experiment consists of a *master node* and a number of *slave nodes* that continually send pseudo-random messages to each other for a configurable period of time. At the end of this period, slaves report a digest of the messages they have received.
 
 ### Slave nodes
 
